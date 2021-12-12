@@ -12,7 +12,7 @@ public class OptionTest {
         option.optionalArg = true;
         assertTrue(option.acceptsArg());
         assertTrue(option.hasLongOpt());
-        assertFalse(option.requiresArg());
+        
         
     }
 
@@ -30,18 +30,29 @@ public class OptionTest {
         Option option = new Option("test", "description");
         option.setArgName(null);
         assertFalse(option.hasArgName());
+        assertFalse(option.requiresArg());
     }
     
     @Test
     void testToAddValues() {
-        Option option = new Option("test", "test", true, "description");
+        Option option = new Option("test", true, "description");
+        
         option.valuesep = 'v';
-        option.numberOfArgs = 5;        
         option.addValueForProcessing("testValue");
 //        option1.addValueForProcessing("testValue2");
 //        System.out.println(option1.getValuesList());
         assertEquals("testValue",option.getValue());
         assertEquals("[testValue]",option.getValuesList().toString());
+    }
+    
+    @Test
+    void testForEqual() {
+    Option option = new Option(null, null);
+    Option option1 = new Option("test", true, "description");
+    Option option2 = new Option("test", "longOptTest", true, "description");
+    assertFalse(option1.equals(option));
+    assertFalse(option2.equals(option1));
+    assertFalse(option.equals(null));
     }
     
     // Write more tests here...
